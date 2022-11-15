@@ -1,0 +1,22 @@
+{
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js",
+    "dbmigrate": "node ./node_modules/.bin/sequelize-cli db:migrate",
+    "seedall": "node ./node_modules/.bin/sequelize-cli db:seed:all",
+    "dbcreate": "node ./node_modules/.bin/sequelize-cli db:create",
+    "dbdrop": "node ./node_modules/.bin/sequelize-cli db:drop"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.8.0",
+    "sequelize": "^6.25.3"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.5.2"
+  }
+}
