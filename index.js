@@ -4,6 +4,8 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 import morgan from "morgan";
 import db from "./db/models/index.js";
+import TestController from "./controllers/testController.js";
+import TestRouter from "./routers/testRouter.js";
 
 //initialize env file
 dotenv.config();
@@ -18,7 +20,7 @@ const { test } = db;
 const testController = new TestController(test);
 
 //initialize routers, routers passes in controllers, auth
-const testRouter = new TestRouter(testController);
+const testRouter = new TestRouter(testController).routes();
 
 // logger
 app.use(morgan("dev"));
