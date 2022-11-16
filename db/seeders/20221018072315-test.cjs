@@ -10,6 +10,8 @@ module.exports = {
       [
         {
           test: "test",
+          created_at: new Date(),
+          updated_at: new Date(),
         },
       ],
       {}
