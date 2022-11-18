@@ -3,15 +3,21 @@ export default class TestController {
     this.testModel = testModel;
   }
 
-  async getTest(res, req) {
+  async getTest(req, res) {
     console.log("test endpoint success");
+    try {
+      const output = await this.testModel.findAll();
+      return res.json(output);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
   }
 
-  async testImages(res, req) {
+  async testImages(req, res) {
     console.log(`test images: ${req.files}`);
   }
 
-  async testImage(res, req) {
+  async testImage(req, res) {
     console.log(`test images: ${req.file}`);
   }
 }

@@ -6,12 +6,17 @@ const router = express.Router();
 const upload = multer();
 
 export default class TestRouter {
-  constructor(testController) {
+  constructor(testController, checkJwt) {
     this.controller = testController;
+    this.checkJwt = checkJwt;
   }
 
   routes() {
-    router.get("/endpoint", this.controller.getTest.bind(this.controller));
+    router.get(
+      "/endpoint",
+      this.checkJwt,
+      this.controller.getTest.bind(this.controller)
+    );
     // for file upload endpoints, use multer array/single
     router.post(
       "/endpoint",
