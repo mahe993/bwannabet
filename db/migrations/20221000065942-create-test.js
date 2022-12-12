@@ -1,10 +1,9 @@
 "use strict";
+import { Sequelize } from "sequelize";
 /** @type {import('sequelize-cli').Migration} */
 
-// using non ES6 syntax. ensure file extension is changed to .cjs
-
-module.exports = {
-  async up(queryInterface, Sequelize) {
+export default {
+  async up(queryInterface) {
     await queryInterface.createTable("tests", {
       id: {
         allowNull: false,
@@ -26,7 +25,7 @@ module.exports = {
     });
   },
 
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable("tests");
   },
 };
