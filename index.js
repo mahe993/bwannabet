@@ -7,6 +7,8 @@ import db from "./db/models/index.js";
 import { auth } from "express-oauth2-jwt-bearer";
 import TestController from "./controllers/testController.js";
 import TestRouter from "./routers/testRouter.js";
+import UsersController from "./controllers/usersController.js";
+import UsersRouter from "./routers/usersRouter.js";
 
 //initialize env file
 dotenv.config();
@@ -19,13 +21,15 @@ const checkJwt = auth({
 });
 
 //destructure models from db
-const { test } = db;
+const { test, user } = db;
 
 //initialize controllers, controllers passes in models
 const testController = new TestController(test);
+const usersController = new UsersController(user);
 
 //initialize routers, routers passes in controllers, auth
 const testRouter = new TestRouter(testController, checkJwt).routes();
+const usersRouter = new UsersRouter(usersController).routes();
 
 // logger
 app.use(morgan("dev"));
@@ -38,6 +42,7 @@ app.use(express.json());
 
 // use routers
 app.use("/test", testRouter);
+app.use("/users", usersRouter);
 
 app.listen(PORT, () => {
   console.log(`Express app listening on port ${PORT}!`);
