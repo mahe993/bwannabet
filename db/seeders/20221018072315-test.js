@@ -2,8 +2,6 @@
 import { Sequelize } from "sequelize";
 /** @type {import('sequelize-cli').Migration} */
 
-// using non ES6 syntax. ensure file extension is changed to .cjs
-
 export default {
   async up(queryInterface) {
     await queryInterface.bulkInsert(
