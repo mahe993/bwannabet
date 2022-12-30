@@ -22,7 +22,7 @@ export default {
       status: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: "Pending",
+        defaultValue: "pending",
       },
       created_at: {
         allowNull: false,

@@ -17,10 +17,10 @@ export default (sequelize, DataTypes) => {
       requestor: DataTypes.STRING,
       status: {
         type: DataTypes.STRING,
-        defaultValue: "Pending",
+        defaultValue: "pending",
         validate: {
           isIn: {
-            args: [["Pending", "Accepted", "Rejected"]],
+            args: [["pending", "accepted", "rejected"]],
             msg: "Status must be Pending, Accepted, or Rejected",
           },
         },
