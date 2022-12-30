@@ -17,14 +17,17 @@ export default {
       username: {
         type: Sequelize.STRING,
       },
+      contact_number: {
+        type: Sequelize.INTEGER,
+      },
       profile_picture: {
         type: Sequelize.JSONB,
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
