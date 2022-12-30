@@ -10,6 +10,14 @@ export default class UsersRouter {
   }
 
   routes() {
+    router.get(
+      "/:userId/:email",
+      this.controller.getUser.bind(this.controller)
+    );
+    router.put(
+      "/:userId/details",
+      this.controller.updateDetails.bind(this.controller)
+    );
     router.post(
       "/:userId/profilepic",
       upload.single("picture"),
