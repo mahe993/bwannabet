@@ -28,7 +28,10 @@ export default class UsersController {
       const transaction = await db.sequelize.transaction(async (t) => {
         const user = await this.userModel.findByPk(userId, { transaction: t });
         const update = await user.update(
-          { username: req.body.username, phoneNumber: req.body.phoneNumber },
+          {
+            username: req.body.username,
+            contactNumber: req.body.contactNumber,
+          },
           {
             transaction: t,
           }
