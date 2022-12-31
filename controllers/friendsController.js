@@ -6,6 +6,62 @@ export default class FriendsController {
     this.friendModel = friendModel;
   }
 
+  // send friend request
+  async sendFriendRequest(req, res) {
+    const { requestee, requestor } = req.body;
+    try {
+      const create = await this.friendModel.create({
+        requestee: requestee,
+        requestor: requestor,
+      });
+      console.log(create.dataValues);
+      res.json({ msg: "success" });
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  // accept friend request
+  async acceptFriend(req, res) {
+    const { requestee, requestor } = req.body;
+    try {
+      const update = await this.friendModel.update(
+        { status: "accepted" },
+        { where: { requestee, requestor } }
+      );
+      if (update === 1) {
+        res.json({ msg: "success" });
+      } else {
+        res.status(404).json({
+          error: true,
+          msg: "Either no rows updated or more than 1 has been updated!",
+        });
+      }
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  // delete friend connection
+  async deleteFriend(req, res) {
+    const { status, requestee, requestor } = req.body;
+    try {
+      const numDeletedRows = await this.friendModel.destroy({
+        where: { status, requestee, requestor },
+      });
+      if (numDeletedRows === 1) {
+        res.json({ msg: "success" });
+      } else {
+        res.status(404).json({
+          error: true,
+          msg: "Either no rows deleted or more than 1 has been deleted!",
+        });
+      }
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
   // get all friend connections regardless of status
   async getFriends(req, res) {
     const { userId } = req.params;
@@ -40,23 +96,25 @@ export default class FriendsController {
       }, {});
 
       // further mutate such that the Pending key holds values further seperated by requestee/requestor
-      result.pending = result.pending.reduce((innerAcc, innerCurr) => {
-        if (innerCurr.requestee === userId) {
-          if (innerAcc.requestee) {
-            innerAcc.requestee.push(innerCurr);
+      if (result["pending"]) {
+        result.pending = result.pending.reduce((innerAcc, innerCurr) => {
+          if (innerCurr.requestee === userId) {
+            if (innerAcc.requestee) {
+              innerAcc.requestee.push(innerCurr);
+            } else {
+              innerAcc.requestee = [innerCurr];
+            }
           } else {
-            innerAcc.requestee = [innerCurr];
+            if (innerAcc.requestor) {
+              innerAcc.requestor.push(innerCurr);
+            } else {
+              innerAcc.requestor = [innerCurr];
+            }
           }
-        } else {
-          if (innerAcc.requestor) {
-            innerAcc.requestor.push(innerCurr);
-          } else {
-            innerAcc.requestor = [innerCurr];
-          }
-        }
-        ``;
-        return innerAcc;
-      }, {});
+
+          return innerAcc;
+        }, {});
+      }
 
       return res.json(result);
     } catch (err) {

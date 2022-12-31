@@ -33,6 +33,26 @@ export default {
         type: Sequelize.DATE,
       },
     });
+
+    // lock requestee/requestor combination
+    await queryInterface.addIndex(
+      "friends",
+      [Sequelize.col("requestee"), Sequelize.col("requestor")],
+      {
+        unique: true,
+        name: "requesteeRequestor_unique",
+      }
+    );
+
+    // lock requestee/requestor reverse combination
+    await queryInterface.addIndex(
+      "friends",
+      [Sequelize.col("requestor"), Sequelize.col("requestee")],
+      {
+        unique: true,
+        name: "requestorRequestee_unique",
+      }
+    );
   },
   async down(queryInterface) {
     await queryInterface.dropTable("friends");

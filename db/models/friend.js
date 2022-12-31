@@ -13,16 +13,24 @@ export default (sequelize, DataTypes) => {
   }
   friend.init(
     {
-      requestee: { type: DataTypes.STRING, allowNull: false },
-      requestor: { type: DataTypes.STRING, allowNull: false },
+      requestee: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: "requesteeRequestor",
+      },
+      requestor: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: "requesteeRequestor",
+      },
       status: {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: "pending",
         validate: {
           isIn: {
-            args: [["pending", "accepted", "rejected"]],
-            msg: "Status must be Pending, Accepted, or Rejected",
+            args: [["pending", "accepted"]],
+            msg: "Status must be Pending or Accepted",
           },
         },
       },
