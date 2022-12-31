@@ -13,10 +13,11 @@ export default (sequelize, DataTypes) => {
   }
   friend.init(
     {
-      requestee: DataTypes.STRING,
-      requestor: DataTypes.STRING,
+      requestee: { type: DataTypes.STRING, allowNull: false },
+      requestor: { type: DataTypes.STRING, allowNull: false },
       status: {
         type: DataTypes.STRING,
+        allowNull: false,
         defaultValue: "pending",
         validate: {
           isIn: {

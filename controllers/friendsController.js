@@ -1,4 +1,5 @@
 import Sequelize from "sequelize";
+import db from "../db/models/index.js";
 
 export default class FriendsController {
   constructor(friendModel) {
@@ -9,11 +10,24 @@ export default class FriendsController {
   async getFriends(req, res) {
     const { userId } = req.params;
     try {
-      const output = await this.friendModel.findAll({
+      const connections = await this.friendModel.findAll({
         where: {
           [Sequelize.Op.or]: [{ requestee: userId }, { requestor: userId }],
         },
       });
+
+      // get the user details of the friend
+      const outputPromisesArr = connections.map(async (connection) => {
+        let friendId;
+        if (connection.requestee === userId) {
+          friendId = connection.requestor;
+        } else {
+          friendId = connection.requestee;
+        }
+        const friendDetails = await db.user.findByPk(friendId);
+        return { ...connection.dataValues, ...friendDetails.dataValues };
+      });
+      const output = await Promise.all(outputPromisesArr);
 
       // mutate output to be an object seperated by status keys
       const result = output.reduce((acc, curr) => {
@@ -40,6 +54,7 @@ export default class FriendsController {
             innerAcc.requestor = [innerCurr];
           }
         }
+        ``;
         return innerAcc;
       }, {});
 
