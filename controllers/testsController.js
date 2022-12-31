@@ -1,4 +1,4 @@
-export default class TestController {
+export default class TestsController {
   constructor(testModel) {
     this.testModel = testModel;
   }
