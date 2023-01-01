@@ -29,7 +29,8 @@ export default class FriendsController {
         { status: "accepted" },
         { where: { requestee, requestor } }
       );
-      if (update === 1) {
+      console.log(update);
+      if (update[0] === 1) {
         res.json({ msg: "success" });
       } else {
         res.status(404).json({
