@@ -46,7 +46,7 @@ app.use(express.json());
 
 // use routers
 app.use("/tests", testsRouter);
-app.use("/users", usersRouter);
+app.use("/users", checkJwt, usersRouter);
 app.use("/friends", friendsRouter);
 
 app.listen(PORT, () => {
