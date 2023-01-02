@@ -14,6 +14,10 @@ export default class UsersRouter {
       "/:userId/:email",
       this.controller.getUser.bind(this.controller)
     );
+    router.get(
+      "/search/:userId/",
+      this.controller.searchUsers.bind(this.controller)
+    );
     router.put(
       "/:userId/details",
       this.controller.updateDetails.bind(this.controller)
