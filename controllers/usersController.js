@@ -7,6 +7,12 @@ export default class UsersController {
     this.userModel = userModel;
   }
 
+  // get all users that fit the criteria
+  async searchUsers(req, res) {
+    const { userId } = req.params;
+    const { query } = req.body;
+  }
+
   // find or create specific user
   async getUser(req, res) {
     const { userId, email } = req.params;
