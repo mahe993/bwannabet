@@ -5,7 +5,7 @@ const router = express.Router();
 // to parse file objects
 const upload = multer();
 
-export default class TestRouter {
+export default class TestsRouter {
   constructor(testController, checkJwt) {
     this.controller = testController;
     this.checkJwt = checkJwt;
