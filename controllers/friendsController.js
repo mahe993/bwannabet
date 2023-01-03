@@ -14,7 +14,6 @@ export default class FriendsController {
         requestee: requestee,
         requestor: requestor,
       });
-      console.log(create.dataValues);
       res.json({ msg: "success" });
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });

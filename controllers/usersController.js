@@ -1,6 +1,7 @@
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../config/firebase.js";
 import db from "../db/models/index.js";
+import { Op } from "sequelize";
 
 export default class UsersController {
   constructor(userModel) {
@@ -9,8 +10,33 @@ export default class UsersController {
 
   // get all users that fit the criteria
   async searchUsers(req, res) {
-    const { userId } = req.params;
-    const { query } = req.body;
+    const { userId, query } = req.params;
+    const users = await this.userModel.findAll({
+      where: {
+        [Op.or]: [
+          { username: { [Op.like]: `%${query}%` } },
+          { email: { [Op.like]: `%${query}%` } },
+        ],
+      },
+    });
+
+    if (users.length === 0) return res.json(users);
+
+    const friendRequests = await db.friend.findAll({
+      where: {
+        [Op.or]: [
+          {
+            requestee: userId,
+            requestor: { [Op.in]: users.map((user) => user.id) },
+          },
+          {
+            requestor: userId,
+            requestee: { [Op.in]: users.map((user) => user.id) },
+          },
+        ],
+      },
+    });
+    res.json(friendRequests);
   }
 
   // find or create specific user
@@ -64,7 +90,6 @@ export default class UsersController {
   async postProfilePic(req, res) {
     const { userId } = req.params;
     try {
-      console.log("start");
       // upload to firebase
       const uploadTask = await this.firebaseProfilePictureUpload(
         userId,
@@ -76,7 +101,6 @@ export default class UsersController {
         firebasePath: uploadTask.metadata.fullPath,
         downloadUrl: pictureUrl,
       };
-      console.log("success");
       // update users table with profile pic data object
       const updateUsers = await this.userModel.update(
         { profilePicture: profilePicData },
