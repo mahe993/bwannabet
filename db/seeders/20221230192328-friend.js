@@ -42,6 +42,13 @@ export default {
           created_at: new Date(),
           updated_at: new Date(),
         },
+        {
+          requestee: "tester1",
+          requestor: "f1g2h3i4j5",
+          status: "accepted",
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
       ],
       {}
     );
