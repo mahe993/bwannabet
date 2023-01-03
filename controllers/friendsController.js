@@ -14,7 +14,6 @@ export default class FriendsController {
         requestee: requestee,
         requestor: requestor,
       });
-      console.log(create.dataValues);
       res.json({ msg: "success" });
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
@@ -29,7 +28,6 @@ export default class FriendsController {
         { status: "accepted" },
         { where: { requestee, requestor } }
       );
-      console.log(update);
       if (update[0] === 1) {
         res.json({ msg: "success" });
       } else {

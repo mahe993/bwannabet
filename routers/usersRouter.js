@@ -11,8 +11,12 @@ export default class UsersRouter {
 
   routes() {
     router.get(
-      "/:userId/:email",
+      "/getuser/:userId/:email",
       this.controller.getUser.bind(this.controller)
+    );
+    router.get(
+      "/search/:userId/:query",
+      this.controller.searchUsers.bind(this.controller)
     );
     router.put(
       "/:userId/details",
