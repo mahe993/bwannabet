@@ -1,4 +1,5 @@
-// example of data from search results. If no pending users, entire pending key is omitted. same for requestor/requestee key as well as accepted/strangers keys. If no users found, empty array.
+// example of data from search results. endpoint: "/users/search/:userId/:query"
+//If no pending users, entire pending key is omitted. same for requestor/requestee key as well as accepted/strangers keys. If no users found, empty array.
 searchResult = {
   pending: {
     requestor: [
@@ -57,7 +58,7 @@ searchResult = {
   ],
 };
 
-// example of data from getUser(findOrCreate)
+// example of data from getUser(findOrCreate). endpoint: "/users/getuser/:userId/:email"
 getUser = {
   id: "auth0|63aea209ac231151d6a252f7",
   email: "mahe@admin.com",
@@ -72,7 +73,8 @@ getUser = {
   updatedAt: "2023-01-03T12:21:31.683Z",
 };
 
-// example of data from getFriends. If no pending users, entire pending key is omitted. same for requestor/requestee key as well as accepted key. If no friends found, empty array
+// example of data from getFriends. endpoint: "/friends/:userId/"
+// If no pending users, entire pending key is omitted. same for requestor/requestee key as well as accepted key. If no friends found, empty array
 getFriends = {
   pending: {
     requestor: [
