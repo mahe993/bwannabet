@@ -13,16 +13,23 @@ export default class UsersController {
     const { userId, query } = req.params;
     const users = await this.userModel.findAll({
       where: {
-        [Op.or]: [
-          { username: { [Op.like]: `%${query}%` } },
-          { email: { [Op.like]: `%${query}%` } },
+        [Op.and]: [
+          {
+            [Op.or]: [
+              { username: { [Op.like]: `%${query}%` } },
+              { email: { [Op.like]: `%${query}%` } },
+            ],
+          },
+          { id: { [Op.ne]: userId } },
         ],
       },
     });
 
+    // if no such user exists, return blank
     if (users.length === 0) return res.json(users);
 
-    const friendRequests = await db.friend.findAll({
+    // search for connection for all persons that match query
+    const friends = await db.friend.findAll({
       where: {
         [Op.or]: [
           {
@@ -36,7 +43,66 @@ export default class UsersController {
         ],
       },
     });
-    res.json(friendRequests);
+
+    // get the user details of the friend
+    const outputPromisesArr = friends.map(async (connection) => {
+      const friendId =
+        connection.requestee === userId
+          ? connection.requestor
+          : connection.requestee;
+      const idx = users.findIndex((user) => user.id === friendId);
+      // if
+      if (idx === -1) {
+      }
+      const friendDetails = await this.userModel.findByPk(friendId);
+      return { ...connection.dataValues, ...friendDetails.dataValues };
+    });
+    const output = await Promise.all(outputPromisesArr);
+
+    // mutate output to be an object seperated by status keys
+    const outputByStatus = output.reduce((acc, curr) => {
+      if (acc[curr.status]) {
+        acc[curr.status].push(curr);
+      } else {
+        acc[curr.status] = [curr];
+      }
+      return acc;
+    }, {});
+
+    // further mutate such that the Pending key holds values further seperated by requestee/requestor
+    if (outputByStatus["pending"]) {
+      outputByStatus.pending = outputByStatus.pending.reduce(
+        (innerAcc, innerCurr) => {
+          if (innerCurr.requestee === userId) {
+            if (innerAcc.requestee) {
+              innerAcc.requestee.push(innerCurr);
+            } else {
+              innerAcc.requestee = [innerCurr];
+            }
+          } else {
+            if (innerAcc.requestor) {
+              innerAcc.requestor.push(innerCurr);
+            } else {
+              innerAcc.requestor = [innerCurr];
+            }
+          }
+
+          return innerAcc;
+        },
+        {}
+      );
+    }
+
+    // finalize output to include users that are not friends
+    const strangers = users.filter((user) => {
+      const friendId = friends.find((friend) => {
+        return friend.requestee === user.id || friend.requestor === user.id;
+      });
+      return !friendId;
+    });
+    outputByStatus["strangers"] = strangers;
+
+    res.json(outputByStatus);
   }
 
   // find or create specific user
