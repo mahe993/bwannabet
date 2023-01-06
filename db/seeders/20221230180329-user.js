@@ -8,9 +8,9 @@ export default {
       "users",
       [
         {
-          id: "tester1",
-          username: "Tester 1",
-          email: "admin@a.com",
+          id: "auth0|63b1977b057a048253326ae8",
+          username: "Tester7",
+          email: "test7@gmail.com",
           contact_number: 98761234,
           created_at: new Date(),
           updated_at: new Date(),
