@@ -11,6 +11,8 @@ import UsersController from "./controllers/usersController.js";
 import UsersRouter from "./routers/usersRouter.js";
 import FriendsController from "./controllers/friendsController.js";
 import FriendsRouter from "./routers/friendsRouter.js";
+import BetlinesController from "./controllers/betlinesController.js";
+import BetlinesRouter from "./routers/betlinesRouter.js";
 
 //initialize env file
 dotenv.config();
@@ -23,17 +25,19 @@ const checkJwt = auth({
 });
 
 //destructure models from db
-const { test, user, friend, wallet } = db;
+const { test, user, friend, wallet, betline } = db;
 
 //initialize controllers, controllers passes in models
 const testsController = new TestsController(test);
 const usersController = new UsersController(user);
 const friendsController = new FriendsController(friend);
+const betlinesController = new BetlinesController(betline);
 
 //initialize routers, routers passes in controllers, auth
 const testsRouter = new TestsRouter(testsController, checkJwt).routes();
 const usersRouter = new UsersRouter(usersController).routes();
 const friendsRouter = new FriendsRouter(friendsController).routes();
+const betlinesRouter = new BetlinesRouter(betlinesController).routes();
 
 // logger
 app.use(morgan("dev"));
@@ -48,6 +52,7 @@ app.use(express.json());
 app.use("/tests", testsRouter);
 app.use("/users", checkJwt, usersRouter);
 app.use("/friends", checkJwt, friendsRouter);
+app.use("/betlines", betlinesRouter);
 
 app.listen(PORT, () => {
   console.log(`Express app listening on port ${PORT}!`);
