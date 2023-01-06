@@ -47,7 +47,7 @@ app.use(express.json());
 // use routers
 app.use("/tests", testsRouter);
 app.use("/users", checkJwt, usersRouter);
-app.use("/friends", friendsRouter);
+app.use("/friends", checkJwt, friendsRouter);
 
 app.listen(PORT, () => {
   console.log(`Express app listening on port ${PORT}!`);
