@@ -8,7 +8,14 @@ export default class WalletsRouter {
   }
 
   routes() {
-    router.post("/:userId", this.controller.postWallet.bind(this.controller));
+    router.post(
+      "/:userId/topup",
+      this.controller.topUpWallet.bind(this.controller)
+    );
+    router.post(
+      "/:userId/withdraw",
+      this.controller.withdrawWallet.bind(this.controller)
+    );
     router.get("/:userId", this.controller.getWallet.bind(this.controller));
 
     return router;

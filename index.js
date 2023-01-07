@@ -57,7 +57,7 @@ app.use("/tests", testsRouter);
 app.use("/users", checkJwt, usersRouter);
 app.use("/friends", checkJwt, friendsRouter);
 app.use("/betlines", betlinesRouter);
-app.use("/wallets", walletsRouter);
+app.use("/wallets", checkJwt, walletsRouter);
 
 app.listen(PORT, () => {
   console.log(`Express app listening on port ${PORT}!`);
