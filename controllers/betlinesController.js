@@ -29,6 +29,22 @@ export default class BetlinesController {
           userId: userId,
         },
       });
+
+      // sort data by status
+      betlines.sort((a, b) => {
+        if (a.betStatus === "open" && b.betStatus !== "open") {
+          return -1;
+        } else if (a.betStatus !== "open" && b.betStatus === "open") {
+          return 1;
+        } else if (a.betStatus === "closed" && b.betStatus !== "closed") {
+          return -1;
+        } else if (a.betStatus !== "closed" && b.betStatus === "closed") {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
       res.json(betlines);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
