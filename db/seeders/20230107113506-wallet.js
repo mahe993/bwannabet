@@ -14,13 +14,13 @@ export default {
           created_at: new Date(),
           updated_at: new Date(),
         },
-        {
-          on_hold: 5460,
-          balance: 8000,
-          user_id: "auth0|63b1977b057a048253326ae8",
-          created_at: new Date(),
-          updated_at: new Date(),
-        },
+        // {
+        //   on_hold: 5460,
+        //   balance: 8000,
+        //   user_id: "auth0|63b1977b057a048253326ae8",
+        //   created_at: new Date(),
+        //   updated_at: new Date(),
+        // },
         {
           on_hold: 5460,
           balance: 8000,
@@ -28,13 +28,13 @@ export default {
           created_at: new Date(),
           updated_at: new Date(),
         },
-        {
-          on_hold: 5460,
-          balance: 8000,
-          user_id: "auth0|7C63b1977b057a048253326ae8",
-          created_at: new Date(),
-          updated_at: new Date(),
-        },
+        // {
+        //   on_hold: 5460,
+        //   balance: 8000,
+        //   user_id: "auth0|7C63b1977b057a048253326ae8",
+        //   created_at: new Date(),
+        //   updated_at: new Date(),
+        // },
       ],
       {}
     );
