@@ -54,6 +54,7 @@ export default {
       }
     );
   },
+
   async down(queryInterface) {
     await queryInterface.dropTable("friends");
   },

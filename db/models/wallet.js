@@ -1,7 +1,7 @@
 "use strict";
 import { Model } from "sequelize";
 export default (sequelize, DataTypes) => {
-  class wallet extends Model {
+  class Wallet extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,10 +12,10 @@ export default (sequelize, DataTypes) => {
       this.belongsTo(models.user);
     }
   }
-  wallet.init(
+  Wallet.init(
     {
       onHold: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         validate: {
           checkBalance(value) {
             if (value < 0) {
@@ -25,7 +25,7 @@ export default (sequelize, DataTypes) => {
         },
       },
       balance: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         validate: {
           checkBalance(value) {
             if (value < 0) {
@@ -48,5 +48,5 @@ export default (sequelize, DataTypes) => {
       underscored: true,
     }
   );
-  return wallet;
+  return Wallet;
 };

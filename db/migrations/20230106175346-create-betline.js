@@ -4,22 +4,45 @@ import { Sequelize } from "sequelize";
 
 export default {
   async up(queryInterface) {
-    await queryInterface.createTable("wallets", {
+    await queryInterface.createTable("betlines", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      on_hold: {
-        type: Sequelize.FLOAT,
+      bet_type: {
+        type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 0,
       },
-      balance: {
+      bet_description: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
+      bet_odds: {
         type: Sequelize.FLOAT,
         allowNull: false,
-        defaultValue: 0,
+      },
+      min_bet: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      max_bet: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      closing_time: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      verification_time: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      bet_status: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: "open",
       },
       user_id: {
         allowNull: false,
@@ -40,6 +63,6 @@ export default {
     });
   },
   async down(queryInterface) {
-    await queryInterface.dropTable("wallets");
+    await queryInterface.dropTable("betlines");
   },
 };

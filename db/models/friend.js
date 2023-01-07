@@ -1,7 +1,7 @@
 "use strict";
 import { Model } from "sequelize";
 export default (sequelize, DataTypes) => {
-  class friend extends Model {
+  class Friend extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,7 +11,7 @@ export default (sequelize, DataTypes) => {
       // define association here
     }
   }
-  friend.init(
+  Friend.init(
     {
       requestee: {
         type: DataTypes.STRING,
@@ -41,5 +41,5 @@ export default (sequelize, DataTypes) => {
       underscored: true,
     }
   );
-  return friend;
+  return Friend;
 };
