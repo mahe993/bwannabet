@@ -9,15 +9,12 @@ import UsersController from "./controllers/usersController.js";
 import UsersRouter from "./routers/usersRouter.js";
 import FriendsController from "./controllers/friendsController.js";
 import FriendsRouter from "./routers/friendsRouter.js";
-<<<<<<< HEAD
 import TransactionsRouter from "./routers/transactionsRouter.js";
 import TransactionsController from "./controllers/transactionsController.js";
-=======
 import BetlinesController from "./controllers/betlinesController.js";
 import BetlinesRouter from "./routers/betlinesRouter.js";
 import WalletsController from "./controllers/walletsController.js";
 import WalletsRouter from "./routers/walletsRouter.js";
->>>>>>> main
 
 //initialize env file
 dotenv.config();
@@ -30,21 +27,14 @@ const checkJwt = auth({
 });
 
 //destructure models from db
-<<<<<<< HEAD
-const { test, user, friend, wallet, transaction } = db;
-=======
-const { test, user, friend, wallet, betline } = db;
->>>>>>> main
+const { test, user, friend, wallet, betline, transaction } = db;
 
 //initialize controllers, controllers passes in models
 const usersController = new UsersController(user);
 const friendsController = new FriendsController(friend);
-<<<<<<< HEAD
 const transactionsController = new TransactionsController(transaction);
-=======
 const betlinesController = new BetlinesController(betline);
 const walletsController = new WalletsController(wallet);
->>>>>>> main
 
 //initialize routers, routers passes in controllers, auth
 const usersRouter = new UsersRouter(usersController).routes();
