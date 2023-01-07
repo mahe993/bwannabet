@@ -1,4 +1,3 @@
-import Sequelize from "sequelize";
 import db from "../db/models/index.js";
 
 export default class BetlinesController {
@@ -10,11 +9,44 @@ export default class BetlinesController {
   async createBetline(req, res) {
     try {
       const { userId } = req.params;
-      const betline = await this.betlineModel.create({
-        ...req.body,
-        userId: userId,
+      const { maxBet, betOdds } = req.body;
+      const transaction = await db.sequelize.transaction(async (t) => {
+        const betline = await this.betlineModel.create(
+          {
+            ...req.body,
+            userId: userId,
+          },
+          { transaction: t }
+        );
+
+        const wallet = await db.wallet.findOne(
+          {
+            where: {
+              userId: betline.userId,
+            },
+          },
+          { transaction: t }
+        );
+
+        // reduce wallet balance by maxBet
+        const decrement = await wallet.decrement("balance", {
+          by: maxBet * betOdds,
+          transaction: t,
+        });
+
+        // increase wallet on Hold balance by maxBet
+        const increment = await wallet.increment("onHold", {
+          by: maxBet * betOdds,
+          transaction: t,
+        });
+
+        await decrement.validate();
+        const final = await increment.validate();
+
+        // return wallet
+        return final;
       });
-      res.json(betline);
+      res.json(transaction);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
     }
@@ -41,7 +73,8 @@ export default class BetlinesController {
         } else if (a.betStatus !== "closed" && b.betStatus === "closed") {
           return 1;
         } else {
-          return 0;
+          // Sort by createdAt if betStatus is the same
+          return b.createdAt - a.createdAt;
         }
       });
 

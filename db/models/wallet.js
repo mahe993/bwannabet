@@ -15,7 +15,7 @@ export default (sequelize, DataTypes) => {
   Wallet.init(
     {
       onHold: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         validate: {
           checkBalance(value) {
             if (value < 0) {
@@ -25,7 +25,7 @@ export default (sequelize, DataTypes) => {
         },
       },
       balance: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         validate: {
           checkBalance(value) {
             if (value < 0) {

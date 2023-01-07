@@ -12,12 +12,12 @@ export default {
         type: Sequelize.INTEGER,
       },
       on_hold: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT,
         allowNull: false,
         defaultValue: 0,
       },
       balance: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT,
         allowNull: false,
         defaultValue: 0,
       },
