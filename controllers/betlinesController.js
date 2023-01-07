@@ -57,6 +57,7 @@ export default class BetlinesController {
     try {
       const { userId } = req.params;
       const betlines = await this.betlineModel.findAll({
+        // eagerload user email and username
         where: {
           userId: userId,
         },
