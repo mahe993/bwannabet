@@ -1,4 +1,5 @@
 import db from "../db/models/index.js";
+import { Sequelize } from "sequelize";
 
 export default class BetlinesController {
   constructor(betlineModel) {
@@ -57,6 +58,13 @@ export default class BetlinesController {
     try {
       const { userId } = req.params;
       const betlines = await this.betlineModel.findAll({
+        // eagerload user email and username
+        include: [
+          {
+            model: db.user,
+            attributes: ["email", "username"],
+          },
+        ],
         where: {
           userId: userId,
         },
@@ -76,6 +84,40 @@ export default class BetlinesController {
           // Sort by createdAt if betStatus is the same
           return b.createdAt - a.createdAt;
         }
+      });
+
+      res.json(betlines);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  // get all betlines by user's friends
+  async getFriendsBetlines(req, res) {
+    try {
+      const { userId } = req.params;
+
+      const friends = await db.friend.findAll({
+        where: {
+          status: "accepted",
+          [Sequelize.Op.or]: [{ requestee: userId }, { requestor: userId }],
+        },
+      });
+
+      // if no accepted friends, early return
+      if (friends.length === 0) return res.json(friends);
+
+      // get all betlines created by friends, eager load their usernames/email
+      const betlines = await this.betlineModel.findAll({
+        include: { model: db.user, attributes: ["username", "email"] },
+        where: {
+          userId: {
+            [Sequelize.Op.in]: friends.map((friend) =>
+              friend.requestee === userId ? friend.requestor : friend.requestee
+            ),
+          },
+        },
+        order: [["createdAt", "DESC"]],
       });
 
       res.json(betlines);

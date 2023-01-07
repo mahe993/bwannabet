@@ -73,6 +73,7 @@ export default class FriendsController {
 
       // if no friends, early return
       if (connections.length === 0) return res.json(connections);
+      console.log("hi");
 
       // get the user details of the friend
       const outputPromisesArr = connections.map(async (connection) => {
