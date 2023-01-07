@@ -66,7 +66,7 @@ export default class WalletsController {
       const { userId } = req.params;
       const [wallet, created] = await this.walletModel.findOrCreate({
         where: { userId: userId },
-        defaults: { balance: 0 },
+        defaults: { balance: 0, onHold: 0 },
       });
       res.json(wallet);
     } catch (err) {
