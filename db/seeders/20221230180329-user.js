@@ -10,6 +10,10 @@ export default {
         {
           id: "tester1",
           username: "Tester 1",
+          profile_picture: {
+            downloadUrl: "https://xsgames.co/randomusers/avatar.php?g=male",
+            firebasePath: "https://example.com",
+          },
           email: "admin@a.com",
           contact_number: 98761234,
           created_at: new Date(),
@@ -18,6 +22,10 @@ export default {
         {
           id: "tester2",
           email: "tester2@tester.com",
+          profile_picture: {
+            downloadUrl: "https://xsgames.co/randomusers/avatar.php?g=pixel",
+            firebasePath: "https://example.com",
+          },
           contact_number: 87655678,
           created_at: new Date(),
           updated_at: new Date(),
@@ -26,6 +34,10 @@ export default {
           id: "tester3",
           username: "Tester 3",
           email: "tester3@tester.com",
+          profile_picture: {
+            downloadUrl: "https://xsgames.co/randomusers/avatar.php?g=male",
+            firebasePath: "https://example.com",
+          },
           created_at: new Date(),
           updated_at: new Date(),
         },
@@ -33,6 +45,10 @@ export default {
           id: "a1b2c3d4e5",
           username: "John Smith",
           email: "johnsmith@unicornmail.com",
+          profile_picture: {
+            downloadUrl: "https://xsgames.co/randomusers/avatar.php?g=pixel",
+            firebasePath: "https://example.com",
+          },
           contact_number: 12345678,
           created_at: new Date(),
           updated_at: new Date(),
@@ -40,6 +56,10 @@ export default {
         {
           id: "x1y2z3a4b5",
           email: "sarahjohnson@mysticalmail.net",
+          profile_picture: {
+            downloadUrl: "https://xsgames.co/randomusers/avatar.php?g=female",
+            firebasePath: "https://example.com",
+          },
           contact_number: 87654321,
           created_at: new Date(),
           updated_at: new Date(),
@@ -48,6 +68,10 @@ export default {
           id: "m1n2o3p4q5",
           username: "Jane Doe",
           email: "janedoe@fantasymail.org",
+          profile_picture: {
+            downloadUrl: "https://xsgames.co/randomusers/avatar.php?g=female",
+            firebasePath: "https://example.com",
+          },
           created_at: new Date(),
           updated_at: new Date(),
         },
@@ -61,6 +85,10 @@ export default {
         {
           id: "f1g2h3i4j5",
           username: "Bob Johnson",
+          profile_picture: {
+            downloadUrl: "https://xsgames.co/randomusers/avatar.php?g=male",
+            firebasePath: "https://example.com",
+          },
           email: "bobjohnson@magicalmail.biz",
           contact_number: 44556677,
           created_at: new Date(),
