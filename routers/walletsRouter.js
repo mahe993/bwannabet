@@ -9,11 +9,11 @@ export default class WalletsRouter {
 
   routes() {
     router.post(
-      "/:userId/topup",
+      "/topup/:userId/",
       this.controller.topUpWallet.bind(this.controller)
     );
     router.post(
-      "/:userId/withdraw",
+      "/withdraw/:userId/",
       this.controller.withdrawWallet.bind(this.controller)
     );
     router.get("/:userId", this.controller.getWallet.bind(this.controller));
