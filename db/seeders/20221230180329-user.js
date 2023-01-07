@@ -11,7 +11,8 @@ export default {
           id: "tester1",
           username: "Tester 1",
           profile_picture: JSON.stringify({
-            downloadUrl: "https://xsgames.co/randomusers/avatar.php?g=male",
+            downloadUrl:
+              "https://xsgames.co/randomusers/assets/avatars/male/10.jpg",
             firebasePath: "https://example.com",
           }),
           email: "admin@a.com",
@@ -23,7 +24,8 @@ export default {
           id: "tester2",
           email: "tester2@tester.com",
           profile_picture: JSON.stringify({
-            downloadUrl: "https://xsgames.co/randomusers/avatar.php?g=pixel",
+            downloadUrl:
+              "https://xsgames.co/randomusers/assets/avatars/pixel/43.jpg",
             firebasePath: "https://example.com",
           }),
           contact_number: 87655678,
@@ -35,7 +37,8 @@ export default {
           username: "Tester 3",
           email: "tester3@tester.com",
           profile_picture: JSON.stringify({
-            downloadUrl: "https://xsgames.co/randomusers/avatar.php?g=male",
+            downloadUrl:
+              "	https://xsgames.co/randomusers/assets/avatars/male/38.jpg",
             firebasePath: "https://example.com",
           }),
           created_at: new Date(),
@@ -57,7 +60,8 @@ export default {
           id: "x1y2z3a4b5",
           email: "sarahjohnson@mysticalmail.net",
           profile_picture: JSON.stringify({
-            downloadUrl: "https://xsgames.co/randomusers/avatar.php?g=female",
+            downloadUrl:
+              "https://xsgames.co/randomusers/assets/avatars/female/15.jpg",
             firebasePath: "https://example.com",
           }),
           contact_number: 87654321,
@@ -113,12 +117,12 @@ export default {
           created_at: new Date(),
           updated_at: new Date(),
         },
-        // {
-        //   id: "auth0|63b1977b057a048253326ae8", // ZIHAO'S ACCOUNT 1
-        //   email: "samuel@mail.net",
-        //   created_at: new Date(),
-        //   updated_at: new Date(),
-        // },
+        {
+          id: "auth0|63b1977b057a048253326ae8", // ZIHAO'S ACCOUNT 1
+          email: "test7@gmail.com",
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
         // {
         //   id: "auth0|7C63b1977b057a048253326ae8", // ZIHAO'S ACCOUNT 2
         //   email: "samuel@mail.net",
