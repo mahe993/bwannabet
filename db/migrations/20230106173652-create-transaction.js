@@ -23,10 +23,17 @@ export default {
         type: Sequelize.STRING,
       },
       betline_id: {
-        type: Sequelize.STRING,
-      },
-      topup_amount: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "betlines",
+          key: "id",
+        },
+      },
+      amount: {
+        type: Sequelize.FLOAT,
+      },
+      balance: {
+        type: Sequelize.FLOAT,
       },
       type: {
         allowNull: false,

@@ -10,6 +10,7 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.user);
+      this.belongsTo(models.betline);
     }
   }
   transaction.init(
@@ -25,13 +26,26 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
       betlineId: {
-        type: DataTypes.STRING,
-      },
-      topupAmount: {
         type: DataTypes.INTEGER,
+        references: {
+          model: "betlines",
+          key: "id",
+        },
+      },
+      amount: {
+        type: DataTypes.FLOAT,
+      },
+      balance: {
+        type: DataTypes.FLOAT,
       },
       type: {
         type: DataTypes.STRING,
+        validate: {
+          isIn: {
+            args: [["Deposit", "Withdrawal", "Bet Won", "Bet Lost"]],
+            msg: "Type must be deposit, withdrawl, bet won or bet lost",
+          },
+        },
       },
       betAmount: {
         type: DataTypes.INTEGER,
@@ -39,7 +53,7 @@ export default (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "wallet",
+      modelName: "transaction",
       underscored: true,
     }
   );

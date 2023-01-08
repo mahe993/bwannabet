@@ -25,6 +25,11 @@ export default class WalletsController {
         });
 
         const validate = await increment.validate();
+        // adding the transaction create query to the topup action
+        const transactionUpdate = await db.transaction.create(
+          ...{ transaction: t }
+        );
+
         return validate;
       });
       res.json(transaction);

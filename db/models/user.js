@@ -12,6 +12,7 @@ export default (sequelize, DataTypes) => {
       // define association here
       this.hasOne(models.wallet);
       this.hasMany(models.betline);
+      this.hasMany(models.transaction);
     }
   }
   User.init(

@@ -8,7 +8,7 @@ export default {
       "transactions",
       [
         {
-          user_id: "auth0%7C63b1977b057a048253326ae8",
+          user_id: "auth0|63b1977b057a048253326ae8",
           bet_id: null,
           betline_id: null,
           topup_amount: 100,
@@ -18,7 +18,7 @@ export default {
           updated_at: new Date(),
         },
         {
-          user_id: "auth0%7C63b1977b057a048253326ae8",
+          user_id: "auth0|63b1977b057a048253326ae8",
           bet_id: "123",
           betline_id: "321",
           topup_amount: null,
