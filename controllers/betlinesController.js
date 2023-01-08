@@ -16,7 +16,7 @@ export default class BetlinesController {
           {
             ...req.body,
             userId: userId,
-            holdingAmount: maxBet * betOdds,
+            holdingAmount: maxBet * betOdds - maxBet,
           },
           { transaction: t }
         );
@@ -34,7 +34,7 @@ export default class BetlinesController {
         const decrement = await wallet.decrement(
           "balance",
           {
-            by: maxBet * betOdds,
+            by: maxBet * betOdds - maxBet,
           },
           { transaction: t }
         );
@@ -43,7 +43,7 @@ export default class BetlinesController {
         const increment = await wallet.increment(
           "onHold",
           {
-            by: maxBet * betOdds,
+            by: maxBet * betOdds - maxBet,
           },
           { transaction: t }
         );
@@ -55,6 +55,37 @@ export default class BetlinesController {
         return final;
       });
       res.json(transaction);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  // get specific betline
+  async getSpecificBetline(req, res) {
+    try {
+      const { betlineId } = req.params;
+
+      const betline = await this.betlineModel.findByPk(betlineId, {
+        // eagerload user email and username
+        include: [
+          {
+            model: db.user,
+            attributes: ["email", "username"],
+          },
+          {
+            model: db.bet,
+            attributes: ["betAmount", "id"],
+            include: [
+              {
+                model: db.user,
+                attributes: ["email", "username"],
+              },
+            ],
+          },
+        ],
+      });
+
+      res.json(betline);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
     }
