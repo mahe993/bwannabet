@@ -117,6 +117,7 @@ export default class BetlinesController {
               friend.requestee === userId ? friend.requestor : friend.requestee
             ),
           },
+          betStatus: "open",
         },
         order: [["createdAt", "DESC"]],
       });

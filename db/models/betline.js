@@ -10,6 +10,7 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.user);
+      this.hasMany(models.bet);
     }
   }
 
@@ -30,10 +31,24 @@ export default (sequelize, DataTypes) => {
       minBet: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        validate: {
+          checkBalance(value) {
+            if (value < 1) {
+              throw new Error("min bet cannot be less than 1!");
+            }
+          },
+        },
       },
       maxBet: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        validate: {
+          checkBalance(value) {
+            if (value < 0) {
+              throw new Error("max bet cannot be negative!");
+            }
+          },
+        },
       },
       closingTime: {
         type: DataTypes.DATE,
@@ -56,6 +71,7 @@ export default (sequelize, DataTypes) => {
       },
       userId: {
         type: DataTypes.STRING,
+        allowNull: false,
         references: {
           model: "users",
           key: "id",
