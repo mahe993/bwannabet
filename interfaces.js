@@ -121,3 +121,25 @@ getFriends = {
     },
   ],
 };
+
+// example of data from betlines. endpoints: "betlines/friends/:userId" and "betlines/:userId"
+betlines = [
+  {
+    id: 50,
+    betType: "custom",
+    betDescription: "Lebron James wins MVP this season",
+    betOdds: 1.5,
+    minBet: 10,
+    maxBet: 100,
+    closingTime: "2023-04-10T18:00:00.000Z",
+    verificationTime: "2023-04-11T19:00:00.000Z",
+    betStatus: "open",
+    userId: "f1g2h3i4j5",
+    createdAt: "2023-01-07T17:18:36.363Z",
+    updatedAt: "2023-01-07T17:18:36.363Z",
+    user: {
+      username: "Bob Johnson",
+      email: "bobjohnson@magicalmail.biz",
+    },
+  },
+];
