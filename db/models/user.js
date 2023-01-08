@@ -17,7 +17,7 @@ export default (sequelize, DataTypes) => {
   User.init(
     {
       id: { type: DataTypes.STRING, primaryKey: true },
-      email: DataTypes.STRING,
+      email: { type: DataTypes.STRING, unique: true },
       username: DataTypes.STRING,
       profilePicture: DataTypes.JSONB,
       contactNumber: DataTypes.INTEGER,
