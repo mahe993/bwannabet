@@ -9,7 +9,7 @@ export default {
       [
         {
           id: "tester1",
-          username: "Tester 1",
+          username: "Dwyane Johnson",
           profile_picture: JSON.stringify({
             downloadUrl:
               "https://xsgames.co/randomusers/assets/avatars/male/10.jpg",
@@ -34,7 +34,7 @@ export default {
         },
         {
           id: "tester3",
-          username: "Tester 3",
+          username: "Dan Abramov the Second",
           email: "tester3@tester.com",
           profile_picture: JSON.stringify({
             downloadUrl:
@@ -46,7 +46,7 @@ export default {
         },
         {
           id: "a1b2c3d4e5",
-          username: "John Smith",
+          username: "NFT Scammer",
           email: "johnsmith@unicornmail.com",
           profile_picture: JSON.stringify({
             downloadUrl: "https://xsgames.co/randomusers/avatar.php?g=pixel",
