@@ -69,6 +69,20 @@ export default (sequelize, DataTypes) => {
           },
         },
       },
+      winner: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "open",
+        validate: {
+          isIn: {
+            args: [["open", "player", "house"]],
+            msg: "Status must be open, player or house",
+          },
+        },
+      },
+      winLoss: {
+        type: DataTypes.FLOAT,
+      },
       userId: {
         type: DataTypes.STRING,
         allowNull: false,

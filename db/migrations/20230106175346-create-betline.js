@@ -44,6 +44,12 @@ export default {
         allowNull: false,
         defaultValue: "open",
       },
+      winner: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: "open",
+      },
+      win_loss: { type: Sequelize.FLOAT },
       user_id: {
         allowNull: false,
         type: Sequelize.STRING,
