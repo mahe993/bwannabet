@@ -27,6 +27,13 @@ export default (sequelize, DataTypes) => {
       betOdds: {
         type: DataTypes.FLOAT,
         allowNull: false,
+        validate: {
+          checkBalance(value) {
+            if (value < 1.1) {
+              throw new Error("bet odds cannot be less than 1.1!");
+            }
+          },
+        },
       },
       minBet: {
         type: DataTypes.INTEGER,
@@ -44,8 +51,18 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           checkBalance(value) {
-            if (value < 0) {
-              throw new Error("max bet cannot be negative!");
+            if (value < 1) {
+              throw new Error("max bet cannot be less than 1!");
+            }
+          },
+        },
+      },
+      holdingAmount: {
+        type: DataTypes.FLOAT,
+        validate: {
+          checkBalance(value) {
+            if (value < 1.1) {
+              throw new Error("holding amount cannot be less than 1.1!");
             }
           },
         },

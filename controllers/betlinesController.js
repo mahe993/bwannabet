@@ -16,6 +16,7 @@ export default class BetlinesController {
           {
             ...req.body,
             userId: userId,
+            holdingAmount: maxBet * betOdds,
           },
           { transaction: t }
         );
