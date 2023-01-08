@@ -64,19 +64,8 @@ export default (sequelize, DataTypes) => {
         defaultValue: "open",
         validate: {
           isIn: {
-            args: [["open", "closed", "verified"]],
-            msg: "Status must be open, closed or verified",
-          },
-        },
-      },
-      winner: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: "open",
-        validate: {
-          isIn: {
-            args: [["open", "player", "house"]],
-            msg: "Status must be open, player or house",
+            args: [["open", "closed", "house", "player"]],
+            msg: "Status must be open, closed, house or player!",
           },
         },
       },
