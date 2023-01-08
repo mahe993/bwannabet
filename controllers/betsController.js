@@ -6,6 +6,53 @@ export default class BetsController {
     this.betModel = betModel;
   }
 
+  // get all bets by user
+  async getUserBets(req, res) {
+    try {
+      const { userId } = req.params;
+      const bets = await this.betModel.findAll({
+        include: [
+          {
+            model: db.betline,
+            attributes: ["betStatus", "betDescription", "betOdds"],
+          },
+        ],
+        where: {
+          userId: userId,
+        },
+      });
+
+      // sort data by status
+      bets.sort((a, b) => {
+        if (a.betline.betStatus === "open" && b.betline.betStatus !== "open") {
+          return -1;
+        } else if (
+          a.betline.betStatus !== "open" &&
+          b.betline.betStatus === "open"
+        ) {
+          return 1;
+        } else if (
+          a.betline.betStatus === "closed" &&
+          b.betline.betStatus !== "closed"
+        ) {
+          return -1;
+        } else if (
+          a.betline.betStatus !== "closed" &&
+          b.betline.betStatus === "closed"
+        ) {
+          return 1;
+        } else {
+          // Sort by createdAt if betStatus is the same
+          return b.createdAt - a.createdAt;
+        }
+      });
+
+      res.json(bets);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
   // create new bet
   async createBet(req, res) {
     try {

@@ -9,6 +9,7 @@ export default class BetsRouter {
 
   routes() {
     router.post("/:userId", this.controller.createBet.bind(this.controller));
+    router.get("/:userId", this.controller.getUserBets.bind(this.controller));
 
     return router;
   }
