@@ -63,8 +63,16 @@ export default class WalletsController {
   // find or create a specific user's wallet
   async getWallet(req, res) {
     try {
-      const { userId } = req.params;
-      const [wallet, created] = await this.walletModel.findOrCreate({
+      const { userId, email } = req.params;
+
+      // ensure user exists first
+      const [user, unused] = await db.user.findOrCreate({
+        where: { id: userId },
+        defaults: { email: email },
+      });
+
+      //create wallet
+      const [wallet, unusedTwo] = await this.walletModel.findOrCreate({
         where: { userId: userId },
         defaults: { balance: 0, onHold: 0 },
       });
