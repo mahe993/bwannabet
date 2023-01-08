@@ -19,10 +19,13 @@ export default class WalletsController {
           { transaction: t }
         );
 
-        const increment = await wallet.increment("balance", {
-          by: req.body.balance,
-          transaction: t,
-        });
+        const increment = await wallet.increment(
+          "balance",
+          {
+            by: req.body.balance,
+          },
+          { transaction: t }
+        );
 
         const validate = await increment.validate();
         return validate;
@@ -46,10 +49,13 @@ export default class WalletsController {
           { transaction: t }
         );
 
-        const decrement = await wallet.decrement("balance", {
-          by: req.body.balance,
-          transaction: t,
-        });
+        const decrement = await wallet.decrement(
+          "balance",
+          {
+            by: req.body.balance,
+          },
+          { transaction: t }
+        );
 
         const validate = await decrement.validate();
         return validate;

@@ -51,8 +51,8 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           checkBalance(value) {
-            if (value < 1) {
-              throw new Error("max bet cannot be less than 1!");
+            if (value < 0) {
+              throw new Error("max bet cannot be less than 0!");
             }
           },
         },

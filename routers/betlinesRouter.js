@@ -12,6 +12,10 @@ export default class BetlinesRouter {
       "/:userId",
       this.controller.createBetline.bind(this.controller)
     );
+    router.put(
+      "/verification/:winner",
+      this.controller.verifyBetline.bind(this.controller)
+    );
     router.get("/:userId", this.controller.getBetlines.bind(this.controller));
     router.get(
       "/friends/:userId",
