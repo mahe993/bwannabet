@@ -39,10 +39,6 @@ export default {
         type: Sequelize.DATE,
         allowNull: false,
       },
-      verification_time: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
       bet_status: {
         type: Sequelize.STRING,
         allowNull: false,

@@ -59,19 +59,9 @@ export default (sequelize, DataTypes) => {
       },
       holdingAmount: {
         type: DataTypes.FLOAT,
-        validate: {
-          checkBalance(value) {
-            if (value < 1.1) {
-              throw new Error("holding amount cannot be less than 1.1!");
-            }
-          },
-        },
-      },
-      closingTime: {
-        type: DataTypes.DATE,
         allowNull: false,
       },
-      verificationTime: {
+      closingTime: {
         type: DataTypes.DATE,
         allowNull: false,
       },
