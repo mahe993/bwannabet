@@ -34,7 +34,7 @@ export default {
         },
         {
           id: "tester3",
-          username: "Dan Abramov the Second",
+          username: "Dan Abramov",
           email: "tester3@tester.com",
           profile_picture: JSON.stringify({
             downloadUrl:
