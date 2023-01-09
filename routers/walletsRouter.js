@@ -16,7 +16,10 @@ export default class WalletsRouter {
       "/withdraw/:userId/",
       this.controller.withdrawWallet.bind(this.controller)
     );
-    router.get("/:userId", this.controller.getWallet.bind(this.controller));
+    router.get(
+      "/getwallet/:userId/:email",
+      this.controller.getWallet.bind(this.controller)
+    );
 
     return router;
   }

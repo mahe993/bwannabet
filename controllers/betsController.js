@@ -79,10 +79,13 @@ export default class BetsController {
         );
 
         // reduce maxBet
-        const decreaseMaxBet = await betline.decrement("maxBet", {
-          by: betAmount,
-          transaction: t,
-        });
+        const decreaseMaxBet = await betline.decrement(
+          "maxBet",
+          {
+            by: betAmount,
+          },
+          { transaction: t }
+        );
 
         // run checks
         const updatedBetline = await decreaseMaxBet.validate();
@@ -104,18 +107,24 @@ export default class BetsController {
         );
 
         // decrease wallet balance by betAmount
-        const decrementOnHold = await wallet.decrement("balance", {
-          by: betAmount,
-          transaction: t,
-        });
+        const decrementOnHold = await wallet.decrement(
+          "balance",
+          {
+            by: betAmount,
+          },
+          { transaction: t }
+        );
 
         await decrementOnHold.validate();
 
         // increase wallet on Hold balance by betAmount
-        const incrementOnHold = await wallet.increment("onHold", {
-          by: betAmount,
-          transaction: t,
-        });
+        const incrementOnHold = await wallet.increment(
+          "onHold",
+          {
+            by: betAmount,
+          },
+          { transaction: t }
+        );
 
         const final = await incrementOnHold.validate();
 

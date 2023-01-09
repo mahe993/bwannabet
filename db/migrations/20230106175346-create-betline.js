@@ -31,11 +31,11 @@ export default {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      closing_time: {
-        type: Sequelize.DATE,
+      holding_amount: {
+        type: Sequelize.FLOAT,
         allowNull: false,
       },
-      verification_time: {
+      closing_time: {
         type: Sequelize.DATE,
         allowNull: false,
       },
@@ -43,6 +43,9 @@ export default {
         type: Sequelize.STRING,
         allowNull: false,
         defaultValue: "open",
+      },
+      win_loss: {
+        type: Sequelize.FLOAT,
       },
       user_id: {
         allowNull: false,

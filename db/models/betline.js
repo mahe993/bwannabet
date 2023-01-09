@@ -27,6 +27,13 @@ export default (sequelize, DataTypes) => {
       betOdds: {
         type: DataTypes.FLOAT,
         allowNull: false,
+        validate: {
+          checkBalance(value) {
+            if (value < 1.1) {
+              throw new Error("bet odds cannot be less than 1.1!");
+            }
+          },
+        },
       },
       minBet: {
         type: DataTypes.INTEGER,
@@ -45,16 +52,16 @@ export default (sequelize, DataTypes) => {
         validate: {
           checkBalance(value) {
             if (value < 0) {
-              throw new Error("max bet cannot be negative!");
+              throw new Error("max bet cannot be less than 0!");
             }
           },
         },
       },
-      closingTime: {
-        type: DataTypes.DATE,
+      holdingAmount: {
+        type: DataTypes.FLOAT,
         allowNull: false,
       },
-      verificationTime: {
+      closingTime: {
         type: DataTypes.DATE,
         allowNull: false,
       },
@@ -64,10 +71,13 @@ export default (sequelize, DataTypes) => {
         defaultValue: "open",
         validate: {
           isIn: {
-            args: [["open", "closed", "verified"]],
-            msg: "Status must be open, closed or verified",
+            args: [["open", "closed", "house", "player"]],
+            msg: "Status must be open, closed, house or player!",
           },
         },
+      },
+      winLoss: {
+        type: DataTypes.FLOAT,
       },
       userId: {
         type: DataTypes.STRING,
