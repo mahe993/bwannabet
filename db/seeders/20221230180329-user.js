@@ -123,12 +123,6 @@ export default {
           created_at: new Date(),
           updated_at: new Date(),
         },
-        // {
-        //   id: "auth0|7C63b1977b057a048253326ae8", // ZIHAO'S ACCOUNT 2
-        //   email: "samuel@mail.net",
-        //   created_at: new Date(),
-        //   updated_at: new Date(),
-        // },
       ],
       {}
     );
