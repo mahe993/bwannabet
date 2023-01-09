@@ -216,10 +216,9 @@ export default class BetlinesController {
               },
               { transaction: t }
             );
-            console.log("hi");
+
             winLossAmount -= winnings;
             winLossAmount += bet.betAmount;
-            console.log(winLossAmount);
           }
         });
 
@@ -238,7 +237,6 @@ export default class BetlinesController {
         );
 
         // increase owner wallet balance by holdingAmount + constant
-        console.log(betline.holdingAmount, winLossAmount);
         await db.wallet.increment(
           "balance",
           {
