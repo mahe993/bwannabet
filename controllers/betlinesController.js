@@ -60,7 +60,7 @@ export default class BetlinesController {
             amount: -toHold,
             description: `Created betline (ref no. #${userId.slice(-5)}-${
               betline.id
-            }).`,
+            })`,
           },
           { transaction: t }
         );
