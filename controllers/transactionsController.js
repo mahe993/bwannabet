@@ -12,6 +12,7 @@ export default class TransactionsController {
         where: {
           userId: userId,
         },
+        order: [["createdAt", "DESC"]],
       });
 
       res.json(transactions);

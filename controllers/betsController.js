@@ -138,7 +138,7 @@ export default class BetsController {
             betId: bet.id,
             betlineId: betlineId,
             type: "Bet",
-            amount: betAmount,
+            amount: -betAmount,
             description: `Bet $${betAmount.toFixed(
               2
             )} on betline (ref no. #${userId.slice(-5)}-${betlineId})`,

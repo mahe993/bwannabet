@@ -57,7 +57,7 @@ export default class BetlinesController {
             userId: userId,
             betlineId: betline.id,
             type: "Betline",
-            amount: toHold,
+            amount: -toHold,
             description: `Created betline (ref no. #${userId.slice(-5)}-${
               betline.id
             }). $${toHold.toFixed(2)} moved from wallet balance to on hold.`,
@@ -225,7 +225,7 @@ export default class BetlinesController {
                 betId: bet.id,
                 betlineId: betlineId,
                 type: "Bet",
-                amount: bet.betAmount,
+                amount: -bet.betAmount,
                 description: `Lost bet (ref no. #${bet.userId.slice(9, 13)}-${
                   bet.id
                 }) on betline (ref no. #${bet.userId.slice(-5)}-${
@@ -258,7 +258,7 @@ export default class BetlinesController {
                 betId: bet.id,
                 betlineId: betlineId,
                 type: "Bet",
-                amount: bet.betAmount,
+                amount: winnings,
                 description: `Won bet (ref no. #${bet.userId.slice(9, 13)}-${
                   bet.id
                 }) on betline (ref no. #${bet.userId.slice(-5)}-${
@@ -318,7 +318,7 @@ export default class BetlinesController {
             userId: betline.userId,
             betlineId: betlineId,
             type: "Betline",
-            amount: Math.abs(winLossAmount),
+            amount: winLossAmount,
             description: `${
               winner === "house" ? "Won" : "Lost"
             } betline (ref no. #${betline.userId.slice(

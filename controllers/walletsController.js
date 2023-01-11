@@ -76,7 +76,7 @@ export default class WalletsController {
           {
             userId: userId,
             type: "Withdrawal",
-            amount: balance,
+            amount: -balance,
             description: `Withdraw from account balance $${balance.toFixed(2)}`,
           },
           { transaction: t }
