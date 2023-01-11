@@ -9,6 +9,7 @@ export default class WalletsController {
   async topUpWallet(req, res) {
     try {
       const { userId } = req.params;
+      const { balance } = req.body;
       const transaction = await db.sequelize.transaction(async (t) => {
         const wallet = await this.walletModel.findOne(
           {
@@ -22,12 +23,23 @@ export default class WalletsController {
         const increment = await wallet.increment(
           "balance",
           {
-            by: req.body.balance,
+            by: balance,
           },
           { transaction: t }
         );
 
         const validate = await increment.validate();
+
+        await db.transaction.create(
+          {
+            userId: userId,
+            type: "Top Up",
+            amount: balance,
+            description: `Funded account balance`,
+          },
+          { transaction: t }
+        );
+
         return validate;
       });
       res.json(transaction);
@@ -39,6 +51,7 @@ export default class WalletsController {
   async withdrawWallet(req, res) {
     try {
       const { userId } = req.params;
+      const { balance } = req.body;
       const transaction = await db.sequelize.transaction(async (t) => {
         const wallet = await this.walletModel.findOne(
           {
@@ -52,12 +65,23 @@ export default class WalletsController {
         const decrement = await wallet.decrement(
           "balance",
           {
-            by: req.body.balance,
+            by: balance,
           },
           { transaction: t }
         );
 
         const validate = await decrement.validate();
+
+        await db.transaction.create(
+          {
+            userId: userId,
+            type: "Withdrawal",
+            amount: -balance,
+            description: `Withdraw from account balance`,
+          },
+          { transaction: t }
+        );
+
         return validate;
       });
       res.json(transaction);

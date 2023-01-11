@@ -15,6 +15,8 @@ import WalletsController from "./controllers/walletsController.js";
 import WalletsRouter from "./routers/walletsRouter.js";
 import BetsController from "./controllers/betsController.js";
 import BetsRouter from "./routers/betsRouter.js";
+import TransactionsController from "./controllers/transactionsController.js";
+import TransactionsRouter from "./routers/transactionsRouter.js";
 
 //initialize env file
 dotenv.config();
@@ -27,7 +29,7 @@ const checkJwt = auth({
 });
 
 //destructure models from db
-const { test, user, friend, wallet, betline, bet } = db;
+const { test, user, friend, wallet, betline, bet, transaction } = db;
 
 //initialize controllers, controllers passes in models
 const usersController = new UsersController(user);
@@ -35,6 +37,7 @@ const friendsController = new FriendsController(friend);
 const betlinesController = new BetlinesController(betline);
 const walletsController = new WalletsController(wallet);
 const betsController = new BetsController(bet);
+const transactionsController = new TransactionsController(transaction);
 
 //initialize routers, routers passes in controllers, auth
 const usersRouter = new UsersRouter(usersController).routes();
@@ -42,6 +45,9 @@ const friendsRouter = new FriendsRouter(friendsController).routes();
 const betlinesRouter = new BetlinesRouter(betlinesController).routes();
 const walletsRouter = new WalletsRouter(walletsController).routes();
 const betsRouter = new BetsRouter(betsController).routes();
+const transactionsRouter = new TransactionsRouter(
+  transactionsController
+).routes();
 
 // logger
 app.use(morgan("dev"));
@@ -57,6 +63,7 @@ app.use("/users", checkJwt, usersRouter);
 app.use("/friends", checkJwt, friendsRouter);
 app.use("/betlines", checkJwt, betlinesRouter);
 app.use("/bets", checkJwt, betsRouter);
+app.use("/transactions", checkJwt, transactionsRouter);
 app.use("/wallets", checkJwt, walletsRouter);
 
 app.listen(PORT, () => {

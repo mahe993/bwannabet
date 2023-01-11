@@ -12,11 +12,12 @@ export default class BetlinesController {
       const { userId } = req.params;
       const { maxBet, betOdds } = req.body;
       const transaction = await db.sequelize.transaction(async (t) => {
+        const toHold = maxBet * betOdds - maxBet;
         const betline = await this.betlineModel.create(
           {
             ...req.body,
             userId: userId,
-            holdingAmount: maxBet * betOdds - maxBet,
+            holdingAmount: toHold,
           },
           { transaction: t }
         );
@@ -34,7 +35,7 @@ export default class BetlinesController {
         const decrement = await wallet.decrement(
           "balance",
           {
-            by: maxBet * betOdds - maxBet,
+            by: toHold,
           },
           { transaction: t }
         );
@@ -43,13 +44,26 @@ export default class BetlinesController {
         const increment = await wallet.increment(
           "onHold",
           {
-            by: maxBet * betOdds - maxBet,
+            by: toHold,
           },
           { transaction: t }
         );
 
         await decrement.validate();
         const final = await increment.validate();
+
+        await db.transaction.create(
+          {
+            userId: userId,
+            betlineId: betline.id,
+            type: "Betline",
+            amount: -toHold,
+            description: `Created betline (ref no. #${userId.slice(-5)}-${
+              betline.id
+            }).`,
+          },
+          { transaction: t }
+        );
 
         // return wallet
         return final;
@@ -203,6 +217,21 @@ export default class BetlinesController {
           // if winner === house, add to constant
           if (winner === "house") {
             winLossAmount += bet.betAmount;
+
+            // add to each player's transaction
+            await db.transaction.create(
+              {
+                userId: bet.userId,
+                betId: bet.id,
+                betlineId: betlineId,
+                type: "Bet",
+                amount: -bet.betAmount,
+                description: `Lost bet (ref no. #${bet.userId.slice(9, 13)}-${
+                  bet.id
+                }) on betline (ref no. #${bet.userId.slice(-5)}-${betline.id})`,
+              },
+              { transaction: t }
+            );
           } else if (winner === "player") {
             // if winner === player, increase bet's userId's wallet balance by betAmount*betOdds and decrease constant
             const winnings = bet.betAmount * betline.betOdds;
@@ -219,6 +248,21 @@ export default class BetlinesController {
 
             winLossAmount -= winnings;
             winLossAmount += bet.betAmount;
+
+            // add to each player's transaction
+            await db.transaction.create(
+              {
+                userId: bet.userId,
+                betId: bet.id,
+                betlineId: betlineId,
+                type: "Bet",
+                amount: winnings,
+                description: `Won bet (ref no. #${bet.userId.slice(9, 13)}-${
+                  bet.id
+                }) on betline (ref no. #${bet.userId.slice(-5)}-${betline.id})`,
+              },
+              { transaction: t }
+            );
           }
         });
 
@@ -256,6 +300,24 @@ export default class BetlinesController {
             where: {
               id: betlineId,
             },
+          },
+          { transaction: t }
+        );
+
+        // add to betline owners's transaction
+        await db.transaction.create(
+          {
+            userId: betline.userId,
+            betlineId: betlineId,
+            type: "Betline",
+            amount: `${
+              winner === "house"
+                ? betline.holdingAmount + winLossAmount
+                : winLossAmount
+            }`,
+            description: `${
+              winner === "house" ? "Won" : "Lost"
+            } betline (ref no. #${betline.userId.slice(-5)}-${betlineId})`,
           },
           { transaction: t }
         );
