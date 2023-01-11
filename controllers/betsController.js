@@ -68,6 +68,8 @@ export default class BetsController {
           { transaction: t }
         );
 
+        console.log(bet.dataValues);
+
         // new bet should update specific betline's maxbet to remove by betamount
         const betline = await db.betline.findOne(
           {
@@ -127,6 +129,21 @@ export default class BetsController {
         );
 
         const final = await incrementOnHold.validate();
+
+        console.log(bet.id);
+
+        await db.transaction.create(
+          {
+            userId: userId,
+            betId: bet.id,
+            type: "Bet",
+            amount: betAmount,
+            description: `Bet $${balance.toFixed(
+              2
+            )} on betline (ref #${betlineId})`,
+          },
+          { transaction: t }
+        );
 
         // return wallet details
         return final;
