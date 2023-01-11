@@ -138,9 +138,9 @@ export default class BetsController {
             betId: bet.id,
             type: "Bet",
             amount: betAmount,
-            description: `Bet $${balance.toFixed(
+            description: `Bet $${betAmount.toFixed(
               2
-            )} on betline (ref #${betlineId})`,
+            )} on betline (ref no. #${betlineId})`,
           },
           { transaction: t }
         );
