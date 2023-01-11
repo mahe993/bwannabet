@@ -35,7 +35,7 @@ export default class WalletsController {
             userId: userId,
             type: "Top Up",
             amount: balance,
-            description: `Funded account balance with $${balance.toFixed(2)}`,
+            description: `Funded account balance`,
           },
           { transaction: t }
         );
@@ -77,7 +77,7 @@ export default class WalletsController {
             userId: userId,
             type: "Withdrawal",
             amount: -balance,
-            description: `Withdraw from account balance $${balance.toFixed(2)}`,
+            description: `Withdraw from account balance`,
           },
           { transaction: t }
         );

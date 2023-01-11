@@ -60,7 +60,7 @@ export default class BetlinesController {
             amount: -toHold,
             description: `Created betline (ref no. #${userId.slice(-5)}-${
               betline.id
-            }). $${toHold.toFixed(2)} moved from wallet balance to on hold.`,
+            }).`,
           },
           { transaction: t }
         );
@@ -228,9 +228,7 @@ export default class BetlinesController {
                 amount: -bet.betAmount,
                 description: `Lost bet (ref no. #${bet.userId.slice(9, 13)}-${
                   bet.id
-                }) on betline (ref no. #${bet.userId.slice(-5)}-${
-                  betline.id
-                }). $${bet.betAmount.toFixed(2)} deducted from wallet on hold.`,
+                }) on betline (ref no. #${bet.userId.slice(-5)}-${betline.id})`,
               },
               { transaction: t }
             );
@@ -261,13 +259,7 @@ export default class BetlinesController {
                 amount: winnings,
                 description: `Won bet (ref no. #${bet.userId.slice(9, 13)}-${
                   bet.id
-                }) on betline (ref no. #${bet.userId.slice(-5)}-${
-                  betline.id
-                }). $${bet.betAmount.toFixed(
-                  2
-                )} deducted from wallet on hold. $${winnings.toFixed(
-                  2
-                )} added to wallet balance`,
+                }) on betline (ref no. #${bet.userId.slice(-5)}-${betline.id})`,
               },
               { transaction: t }
             );
@@ -318,16 +310,14 @@ export default class BetlinesController {
             userId: betline.userId,
             betlineId: betlineId,
             type: "Betline",
-            amount: winLossAmount,
+            amount: `${
+              winner === "house"
+                ? betline.holdingAmount + winLossAmount
+                : winLossAmount
+            }`,
             description: `${
               winner === "house" ? "Won" : "Lost"
-            } betline (ref no. #${betline.userId.slice(
-              -5
-            )}-${betlineId}). $${betline.holdingAmount.toFixed(
-              2
-            )} deducted from wallet on hold. $${(
-              betline.holdingAmount + winLossAmount
-            ).toFixed(2)} added to wallet balance`,
+            } betline (ref no. #${betline.userId.slice(-5)}-${betlineId})`,
           },
           { transaction: t }
         );
