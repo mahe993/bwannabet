@@ -8,6 +8,10 @@ export default class TransactionsRouter {
   }
 
   routes() {
+    router.get(
+      "/:userId",
+      this.controller.getUserTransactions.bind(this.controller)
+    );
     return router;
   }
 }
