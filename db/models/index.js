@@ -14,8 +14,14 @@ const db = {};
 let sequelize;
 if (config[process.env.NODE_ENV].use_env_variable) {
   sequelize = new Sequelize(
-    process.env[config[process.env.NODE_ENV].use_env_variable],
-    config[process.env.NODE_ENV]
+    config.production.database,
+    config.production.username,
+    config.production.password,
+    {
+      dialect: config.production.dialect,
+      port: config.production.port,
+      host: config.production.host,
+    }
   );
 } else {
   sequelize = new Sequelize(
