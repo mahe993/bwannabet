@@ -109,6 +109,27 @@ export default class BetlinesController {
           { betStatus: "closed" },
           { where: { id: betlineId } }
         );
+
+        const reload = await this.betlineModel.findByPk(betlineId, {
+          // eagerload user email and username
+          include: [
+            {
+              model: db.user,
+              attributes: ["email", "username"],
+            },
+            {
+              model: db.bet,
+              attributes: ["betAmount", "id"],
+              include: [
+                {
+                  model: db.user,
+                  attributes: ["email", "username"],
+                },
+              ],
+            },
+          ],
+        });
+        res.json(reload);
       }
 
       res.json(betline);
@@ -136,7 +157,7 @@ export default class BetlinesController {
       });
 
       // loop through betlines and check closingTime and betStatus
-      checkedStatus = betlines.map(async (betline) => {
+      const checkedStatus = betlines.map(async (betline) => {
         if (betline.closingTime < new Date() && betline.betStatus === "open") {
           await this.betlineModel.update(
             { betStatus: "closed" },
@@ -200,7 +221,7 @@ export default class BetlinesController {
       });
 
       // loop through betlines and check closingTime and betStatus
-      checkedStatus = betlines.map(async (betline) => {
+      const checkedStatus = betlines.map(async (betline) => {
         if (betline.closingTime < new Date() && betline.betStatus === "open") {
           await this.betlineModel.update(
             { betStatus: "closed" },
