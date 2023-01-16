@@ -99,6 +99,18 @@ export default class BetlinesController {
         ],
       });
 
+      //update betline to closed if past closing time
+      if (
+        betline &&
+        betline.closingTime < new Date() &&
+        betline.betStatus === "open"
+      ) {
+        await this.betlineModel.update(
+          { betStatus: "closed" },
+          { where: { id: betlineId } }
+        );
+      }
+
       res.json(betline);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
@@ -123,8 +135,21 @@ export default class BetlinesController {
         },
       });
 
+      // loop through betlines and check closingTime and betStatus
+      checkedStatus = betlines.map(async (betline) => {
+        if (betline.closingTime < new Date() && betline.betStatus === "open") {
+          await this.betlineModel.update(
+            { betStatus: "closed" },
+            { where: { id: betline.id } }
+          );
+        }
+        return betline;
+      });
+
+      await Promise.all(checkedStatus);
+
       // sort data by status
-      betlines.sort((a, b) => {
+      checkedStatus.sort((a, b) => {
         if (a.betStatus === "open" && b.betStatus !== "open") {
           return -1;
         } else if (a.betStatus !== "open" && b.betStatus === "open") {
@@ -139,7 +164,7 @@ export default class BetlinesController {
         }
       });
 
-      res.json(betlines);
+      res.json(checkedStatus);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
     }
@@ -174,7 +199,20 @@ export default class BetlinesController {
         order: [["createdAt", "DESC"]],
       });
 
-      res.json(betlines);
+      // loop through betlines and check closingTime and betStatus
+      checkedStatus = betlines.map(async (betline) => {
+        if (betline.closingTime < new Date() && betline.betStatus === "open") {
+          await this.betlineModel.update(
+            { betStatus: "closed" },
+            { where: { id: betline.id } }
+          );
+        }
+        return betline;
+      });
+
+      await Promise.all(checkedStatus);
+
+      res.json(checkedStatus);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
     }
