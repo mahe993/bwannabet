@@ -12,17 +12,16 @@ const basename = path.basename(__filename);
 const db = {};
 
 let sequelize;
-if (config[process.env.NODE_ENV].use_env_variable) {
-  sequelize = new Sequelize(
-    config.production.database,
-    config.production.username,
-    config.production.password,
-    {
-      dialect: config.production.dialect,
-      port: config.production.port,
-      host: config.production.host,
-    }
-  );
+if (process.env.NODE_ENV === "production") {
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+  });
 } else {
   sequelize = new Sequelize(
     config.development.database,
