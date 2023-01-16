@@ -176,10 +176,10 @@ export default class BetlinesController {
         return reload;
       });
 
-      await Promise.all(checkedStatus);
+      const resolved = await Promise.all(checkedStatus);
 
       // sort data by status
-      checkedStatus.sort((a, b) => {
+      resolved.sort((a, b) => {
         if (a.betStatus === "open" && b.betStatus !== "open") {
           return -1;
         } else if (a.betStatus !== "open" && b.betStatus === "open") {
@@ -194,7 +194,7 @@ export default class BetlinesController {
         }
       });
 
-      res.json(checkedStatus);
+      res.json(resolved);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
     }
@@ -249,9 +249,9 @@ export default class BetlinesController {
         return reload;
       });
 
-      await Promise.all(checkedStatus);
+      const resolved = await Promise.all(checkedStatus);
 
-      res.json(checkedStatus);
+      res.json(resolved);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
     }
