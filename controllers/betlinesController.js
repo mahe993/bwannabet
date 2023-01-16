@@ -212,6 +212,8 @@ export default class BetlinesController {
 
       await Promise.all(checkedStatus);
 
+      console.log(checkedStatus);
+
       res.json(checkedStatus);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
