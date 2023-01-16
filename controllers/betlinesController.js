@@ -164,7 +164,16 @@ export default class BetlinesController {
             { where: { id: betline.id } }
           );
         }
-        return betline;
+        const reload = await this.betlineModel.findByPk(betline.id, {
+          // eagerload user email and username
+          include: [
+            {
+              model: db.user,
+              attributes: ["email", "username"],
+            },
+          ],
+        });
+        return reload;
       });
 
       await Promise.all(checkedStatus);
@@ -228,12 +237,17 @@ export default class BetlinesController {
             { where: { id: betline.id } }
           );
         }
-        return betline;
+        const reload = await this.betlineModel.findByPk(betline.id, {
+          // eagerload user email and username
+          include: [
+            {
+              model: db.user,
+              attributes: ["email", "username"],
+            },
+          ],
+        });
+        return reload;
       });
-
-      await Promise.all(checkedStatus);
-
-      console.log(checkedStatus);
 
       res.json(checkedStatus);
     } catch (err) {
