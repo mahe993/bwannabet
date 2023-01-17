@@ -237,21 +237,25 @@ export default class BetlinesController {
             { where: { id: betline.id } }
           );
         }
-        const reload = await this.betlineModel.findByPk(betline.id, {
-          // eagerload user email and username
-          include: [
-            {
-              model: db.user,
-              attributes: ["email", "username"],
-            },
-          ],
-        });
-        return reload;
       });
 
-      const resolved = await Promise.all(checkedStatus);
+      await Promise.all(checkedStatus);
 
-      res.json(resolved);
+      // reload all betlines created by friends
+      const reload = await this.betlineModel.findAll({
+        include: { model: db.user, attributes: ["username", "email"] },
+        where: {
+          userId: {
+            [Sequelize.Op.in]: friends.map((friend) =>
+              friend.requestee === userId ? friend.requestor : friend.requestee
+            ),
+          },
+          betStatus: "open",
+        },
+        order: [["createdAt", "DESC"]],
+      });
+
+      res.json(reload);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
     }
