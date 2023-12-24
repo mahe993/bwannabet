@@ -1,33 +1,36 @@
 "use strict";
-import { Sequelize } from "sequelize";
+const { Sequelize } = require("sequelize");
 /** @type {import('sequelize-cli').Migration} */
-
-export default {
+module.exports = {
   async up(queryInterface) {
-    await queryInterface.createTable("wallets", {
+    await queryInterface.createTable("transactions", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      on_hold: {
+      amount: {
         type: Sequelize.FLOAT,
         allowNull: false,
-        defaultValue: 0,
       },
-      balance: {
-        type: Sequelize.FLOAT,
+      type: {
+        type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 0,
+      },
+      description: {
+        type: Sequelize.TEXT,
+        allowNull: false,
       },
       user_id: {
-        allowNull: false,
         type: Sequelize.STRING,
-        references: {
-          model: "users",
-          key: "id",
-        },
+        allowNull: false,
+      },
+      bet_id: {
+        type: Sequelize.INTEGER,
+      },
+      betline_id: {
+        type: Sequelize.INTEGER,
       },
       created_at: {
         allowNull: false,
@@ -40,6 +43,6 @@ export default {
     });
   },
   async down(queryInterface) {
-    await queryInterface.dropTable("wallets");
+    await queryInterface.dropTable("transactions");
   },
 };
